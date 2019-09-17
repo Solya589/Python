@@ -1,0 +1,23 @@
+import argparse
+import csv
+import json
+
+
+def getArg():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-csv", dest='path_csv', help="Path for your csv file", type=str)
+    parser.add_argument("-json", dest='path_json', help="Path and name of JSON file", type=str)
+    args = parser.parse_args()
+    return args
+
+def toJsonFile(csvfile, jsonfile):
+    jsonf = open(jsonfile, 'w')
+
+    for row in csv.DictReader(open(csvfile, 'r')):
+        row = {k: row[k] for k in row if k not in "password"}
+        json.dump(row, jsonf,indent=4)
+    jsonf.close()
+
+if __name__ == "__main__":
+    args = getArg()
+    toJsonFile(args.path_csv, args.path_json)
