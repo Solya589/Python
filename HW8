@@ -1,0 +1,9 @@
+from xml.etree.ElementTree import parse
+
+root=parse('mondial-3.0.xml').getroot()
+all=set()
+for country in root.findall('country'):
+    if len(country.get('name').split()) == 2:
+         government = country.get('government')
+         all.add(government.strip())
+print(sorted(all))
